@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YugabyteDB Sizing Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="modern-header">
+            <div class="header-content">
+                <div class="header-layout">
+                    <div class="logo-container">
+                        <img src="assets/logo.png" alt="YugabyteDB Logo" class="logo-image">
+                    </div>
+                    <div class="title-container">
+                        <h1>YugabyteDB Sizing Calculator</h1>
+                        <p>Intelligent cluster sizing for your workload</p>
+                    </div>
+                    <div class="logo-spacer"></div>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="calculator-container">
+                <!-- Input Section -->
+                <div class="input-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-sliders-h"></i> Configuration</h2>
+                        <p>Define your cluster requirements</p>
+                    </div>
+                    
+                    <form id="calculator-form">
+                        <div class="form-grid">
+                            <!-- Performance Section -->
+                            <div class="form-section">
+                                <h3><i class="fas fa-tachometer-alt"></i> Performance</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="throughput">Total Throughput</label>
+                                        <div class="input-with-unit">
+                                            <input type="number" id="throughput" name="throughput" value="6000" required>
+                                            <span class="unit">ops/sec</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="joins">Query Complexity</label>
+                                        <select id="joins" name="joins" required>
+                                            <option value="yes" selected>With Joins</option>
+                                            <option value="no">Simple Queries</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="readThroughput">Read Throughput</label>
+                                        <div class="input-with-unit">
+                                            <input type="number" id="readThroughput" name="readThroughput" value="2500" required>
+                                            <span class="unit">ops/sec</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="writeThroughput">Write Throughput</label>
+                                        <div class="input-with-unit">
+                                            <input type="number" id="writeThroughput" name="writeThroughput" value="3500" required>
+                                            <span class="unit">ops/sec</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Storage Section -->
+                            <div class="form-section">
+                                <h3><i class="fas fa-hdd"></i> Storage</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="totalDataSize">Data Size</label>
+                                        <div class="input-with-unit">
+                                            <input type="number" id="totalDataSize" name="totalDataSize" value="6000" required>
+                                            <span class="unit">GB</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="totalIndexSize">Index Size</label>
+                                        <div class="input-with-unit">
+                                            <input type="number" id="totalIndexSize" name="totalIndexSize" value="0" required>
+                                            <span class="unit">GB</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="compressionRatio">Compression Ratio</label>
+                                        <div class="input-with-unit">
+                                            <input type="number" id="compressionRatio" name="compressionRatio" value="30" required>
+                                            <span class="unit">%</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="dbConnections">DB Connections</label>
+                                        <input type="number" id="dbConnections" name="dbConnections" value="100" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Infrastructure Section -->
+                            <div class="form-section">
+                                <h3><i class="fas fa-server"></i> Infrastructure</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="maxCores">Max Cores per Node</label>
+                                        <input type="number" id="maxCores" name="maxCores" value="8" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="peakCpu">CPU Threshold</label>
+                                        <div class="input-with-unit">
+                                            <input type="number" id="peakCpu" name="peakCpu" value="85" required>
+                                            <span class="unit">%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="deploymentLocation">Cloud Provider</label>
+                                        <select id="deploymentLocation" name="deploymentLocation" required>
+                                            <option value="gcp" selected>Google Cloud</option>
+                                            <option value="aws">Amazon AWS</option>
+                                            <option value="azure">Microsoft Azure</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="environment">Environment</label>
+                                        <select id="environment" name="environment" required>
+                                            <option value="Production" selected>Production</option>
+                                            <option value="Staging">Staging</option>
+                                            <option value="Development">Development</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Reliability Section -->
+                            <div class="form-section">
+                                <h3><i class="fas fa-shield-alt"></i> Reliability</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="faultDomain">Fault Domain</label>
+                                        <select id="faultDomain" name="faultDomain" required>
+                                            <option value="zone" selected>Zone</option>
+                                            <option value="node">Node</option>
+                                            <option value="datacenter">Datacenter</option>
+                                            <option value="region">Region</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="faultTolerance">Fault Tolerance</label>
+                                        <input type="number" id="faultTolerance" name="faultTolerance" value="1" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="singleNode">Single Node Allowed</label>
+                                        <select id="singleNode" name="singleNode" required>
+                                            <option value="no" selected>No</option>
+                                            <option value="yes">Yes</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="calculate-section">
+                            <div class="button-row">
+                                <button type="button" id="calculate-button" class="calculate-btn primary">
+                                    <i class="fas fa-calculator"></i>
+                                    Calculate Cluster Size
+                                </button>
+                                <button type="button" id="reset-button" class="calculate-btn secondary">
+                                    <i class="fas fa-refresh"></i>
+                                    Reset Results
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Results Section -->
+                <div class="results-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-chart-line"></i> Results</h2>
+                        <p>Your optimized cluster configuration</p>
+                    </div>
+
+                    <div class="results-grid">
+                        <div class="result-card compute-card">
+                            <div class="card-header">
+                                <i class="fas fa-microchip"></i>
+                                <h3>Compute</h3>
+                            </div>
+                            <div class="metrics">
+                                <div class="metric">
+                                    <span class="label">Min Cores Required</span>
+                                    <span class="value" id="minCores">--</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="label">Min Recommended Cores/Node</span>
+                                    <span class="value" id="recCoresNode">--</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="label">RAM per Node</span>
+                                    <span class="value"><span id="minRam">--</span> GB</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="label">Recommended Cores/Node</span>
+                                    <span class="value" id="recCores">--</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="label">Number of Nodes</span>
+                                    <span class="value highlight" id="recNodes">--</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="label">Replication Factor</span>
+                                    <span class="value" id="repFactor">--</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="label">Connections/Node</span>
+                                    <span class="value" id="connectionsPerNode">--</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="result-card memory-card">
+                            <div class="card-header">
+                                <i class="fas fa-memory"></i>
+                                <h3>Memory</h3>
+                            </div>
+                            <div class="metrics">
+                                <div class="metric">
+                                    <span class="label">Connection Memory</span>
+                                    <span class="value"><span id="avgMem">--</span> GB</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="result-card storage-card">
+                            <div class="card-header">
+                                <i class="fas fa-database"></i>
+                                <h3>Storage</h3>
+                            </div>
+                            <div class="metrics">
+                                <div class="metric">
+                                    <span class="label">Total Storage Required</span>
+                                    <span class="value"><span id="totalStorage">--</span> GB</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="label">With Compression</span>
+                                    <span class="value highlight"><span id="totalStorageComp">--</span> GB</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="label">Storage per Node</span>
+                                    <span class="value"><span id="storagePerNode">--</span> GB</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="result-card topology-card">
+                            <div class="card-header">
+                                <i class="fas fa-sitemap"></i>
+                                <h3>Topology</h3>
+                            </div>
+                            <div class="topology-description">
+                                <span id="topology">Click "Calculate" to see cluster topology</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="assets/script.js"></script>
+</body>
+</html>
