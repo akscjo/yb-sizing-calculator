@@ -1,4 +1,4 @@
-# YugabyteDB Sizing caluclator
+# YugabyteDB Sizing calculator
 
 ## Summary
 "This calculator is intented to help customers provide sizing guidance their YugabyteDB clusters/universes.   It uses known guidance provided by the YugabyteDB documentation located here (https://docs.yugabyte.com/stable/deploy/checklist/) and additional knowledge by YugabyteDB Solutions Engineering and Product Development.  The calculator provides details of the amount and sizing of the compute, including CPU, Memory and Storage requirements.    Additionally it takes into account the desired fault domain topology and the replication factor to include for compute.
