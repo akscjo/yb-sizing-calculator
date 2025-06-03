@@ -17,9 +17,5 @@ This is for "ballpark" or rough estimates only.   It is recommended to vet the s
 This sizing calculator currently supports YSQL only.   
 Improper sizing can impact latency and throughput performance, but its also strongly recommended to have properly designed data structures, query definitions and to leverage tuning practices.
 
-## Upcoming Features to Add to Sizing Calculator
-Memory sizing guidance
-Azure/AWS/On-premises compute types recommendations based on sizing.
-Average indexes per table
-Consideration for row/record sizes and record counts.
+
 
